@@ -1,6 +1,9 @@
 {
   "name": "contribooty",
   "description": "Run this command, show to your boss, own his business.",
+  "repository": {
+    "url": "https://github.com/kuvamdazeus/contribooty"
+  },
   "version": "1.0.0",
   "main": "index.mjs",
   "bin": "dist/index.mjs",
