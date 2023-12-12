@@ -1,4 +1,3 @@
-import fs from "fs-extra";
 import getDirPath from "../helpers/getDirPath";
 import { execSync } from "child_process";
 import chalk from "chalk";
@@ -37,11 +36,14 @@ export default function checkMyRepo() {
 
   const statResult = Array.from(authorChanges)
     .map(([author, numChanges]) => {
-      const percentage = Math.fround((numChanges / sum) * 100);
+      const percentage = parseFloat(
+        Math.fround((numChanges / sum) * 100).toFixed(2)
+      );
 
-      return [author, `${percentage}%`];
+      return [author, percentage];
     })
-    .sort((a, b) => b[1] - a[1]);
+    .sort((a, b) => b[1] - a[1])
+    .map(([author, codeEquity]) => [author, `${codeEquity}%`]);
 
   console.log("Contribooters of this Repo:");
   statResult.forEach(([author, codeEquity]) => {
@@ -52,6 +54,3 @@ export default function checkMyRepo() {
     );
   });
 }
-
-// SET ( git log --pretty=format:"%an" )
-// git show d48a9cb06e1ebd4de1f70ba315c7fbb833475025 --shortstat
