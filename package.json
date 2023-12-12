@@ -4,7 +4,7 @@
   "repository": {
     "url": "https://github.com/kuvamdazeus/contribooty"
   },
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "index.mjs",
   "bin": "dist/index.mjs",
   "license": "MIT",
