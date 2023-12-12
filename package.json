@@ -1,11 +1,11 @@
 {
   "name": "contribooty",
   "version": "1.0.0",
-  "main": "index.js",
-  "bin": "dist/index.js",
+  "main": "index.mjs",
+  "bin": "dist/index.mjs",
   "license": "MIT",
   "scripts": {
-    "build": "tsup src/index.ts --minify --treeshake safest",
+    "build": "tsup src/index.ts --minify --format esm --treeshake safest",
     "watch": "yarn build --watch"
   },
   "devDependencies": {
