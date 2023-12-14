@@ -4,7 +4,10 @@ import chalk from "chalk";
 
 export default function checkMyRepo() {
   const gitDirPath = getDirPath();
-  if (!gitDirPath) return;
+  if (!gitDirPath) {
+    console.log("ERROR: This is not a Git repo!");
+    return;
+  }
 
   const authorChanges = new Map();
 
