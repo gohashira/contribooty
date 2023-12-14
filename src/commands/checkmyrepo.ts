@@ -22,8 +22,7 @@ export default function checkMyRepo() {
     const numAuthorCommitChanges = statData
       .split(", ")
       .slice(1)
-      .map((statString) => parseInt(statString.split(" ")[0]))
-      .reduce((a, b) => a + b);
+      .map((statString) => parseInt(statString.split(" ")[0]))[0];
 
     const prevNumChanges = authorChanges.get(author);
     if (prevNumChanges)
@@ -46,11 +45,16 @@ export default function checkMyRepo() {
     .map(([author, codeEquity]) => [author, `${codeEquity}%`]);
 
   console.log("Contribooters of this Repo:");
-  statResult.forEach(([author, codeEquity]) => {
+  statResult.forEach(([author, codeEquity], index) => {
+    const redValue = Math.round((index / statResult.length) * 255);
+    const greenValue = 255 - redValue;
+
     console.log(
-      `    Author: ${chalk.magenta(
-        author
-      )} owns Code Equity: ${chalk.blueBright(codeEquity)}`
+      `    Author: ${chalk.magenta(author)} owns Code Equity: ${chalk.rgb(
+        redValue,
+        greenValue,
+        0
+      )(codeEquity)}`
     );
   });
 }
