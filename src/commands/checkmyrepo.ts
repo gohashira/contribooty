@@ -11,26 +11,27 @@ export default function checkMyRepo() {
 
   const authorChanges = new Map();
 
-  const commits = new Set(
-    execSync(`git log --pretty=format:"%H"`).toString().split("\n")
-  );
+  const commits = new Set(execSync(`git log --pretty=format:"%H"`).toString().split("\n"));
 
   commits.forEach((commitHash) => {
-    const commitStats = execSync(
-      `git show ${commitHash} --shortstat --pretty=format:"%an <%ae>"`
-    ).toString();
+    try {
+      const commitStats = execSync(
+        `git show ${commitHash} --shortstat --pretty=format:"%an <%ae>"`
+      ).toString();
 
-    const [author, statData] = commitStats.trim().split("\n ");
+      console.log(commitHash, commitStats);
 
-    const numAuthorCommitChanges = statData
-      .split(", ")
-      .slice(1)
-      .map((statString) => parseInt(statString.split(" ")[0]))[0];
+      const [author, statData] = commitStats.trim().split("\n ");
 
-    const prevNumChanges = authorChanges.get(author);
-    if (prevNumChanges)
-      authorChanges.set(author, prevNumChanges + numAuthorCommitChanges);
-    else authorChanges.set(author, numAuthorCommitChanges);
+      const numAuthorCommitChanges = statData
+        .split(", ")
+        .slice(1)
+        .map((statString) => parseInt(statString.split(" ")[0]))[0];
+
+      const prevNumChanges = authorChanges.get(author);
+      if (prevNumChanges) authorChanges.set(author, prevNumChanges + numAuthorCommitChanges);
+      else authorChanges.set(author, numAuthorCommitChanges);
+    } catch {}
   });
 
   let sum = 0;
@@ -38,9 +39,7 @@ export default function checkMyRepo() {
 
   const statResult = Array.from(authorChanges)
     .map(([author, numChanges]) => {
-      const percentage = parseFloat(
-        Math.fround((numChanges / sum) * 100).toFixed(2)
-      );
+      const percentage = parseFloat(Math.fround((numChanges / sum) * 100).toFixed(2));
 
       return [author, percentage];
     })
