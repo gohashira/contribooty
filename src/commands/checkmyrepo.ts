@@ -19,8 +19,6 @@ export default function checkMyRepo() {
         `git show ${commitHash} --shortstat --pretty=format:"%an <%ae>"`
       ).toString();
 
-      console.log(commitHash, commitStats);
-
       const [author, statData] = commitStats.trim().split("\n ");
 
       const numAuthorCommitChanges = statData
